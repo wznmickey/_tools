@@ -24,6 +24,22 @@ def translate(x):
     temp = clearLines(x)
     os.system("python -m googletranslate -r text zh-CN " + '"' + x + '"')
 
+def deeplx(x):
+    import httpx, json
+    from urllib.parse import unquote
+    deeplx_api = "http://127.0.0.1:1188/translate"
+
+    data = {
+        "text": x,
+        "source_lang": "EN",
+        "target_lang": "ZH"
+    }
+
+    post_data = json.dumps(data)
+    r = httpx.post(url = deeplx_api, data = post_data).text
+    print(unquote(json.loads(r)["data"]))
+    for i in json.loads(r)["alternatives"]:
+        print(unquote(i))
 
 if __name__ == '__main__':
     argv = sys.argv
@@ -34,3 +50,5 @@ if __name__ == '__main__':
         translateHtml(argv[2])
     if (argv[1] == "googleTranslate"):
         translate(argv[2])
+    if (argv[1] == "deeplx"):
+        deeplx(argv[2])
