@@ -36,9 +36,11 @@ def deeplx(x):
     }
 
     post_data = json.dumps(data)
-    r = httpx.post(url = deeplx_api, data = post_data).text
-    print(unquote(json.loads(r)["data"]))
-    for i in json.loads(r)["alternatives"]:
+    r = httpx.post(url = deeplx_api, data = post_data)
+    # print(r)
+    # print(r.content)
+    print(unquote(json.loads(r.text)["data"]))
+    for i in json.loads(r.text)["alternatives"] or []:
         print(unquote(i))
 
 if __name__ == '__main__':
