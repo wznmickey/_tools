@@ -16,13 +16,13 @@ def clearLines(x):
 def translateHtml(x):
     import os
     temp = clearLines(x)
-    os.system("/home/wznmickey/.pyenv/versions/3.10.13/bin/python -m googletranslate zh-CN " + '"' + x + '"')
+    os.system("/home/wznmickey/.pyenv/versions/3.10.13/bin/python -m googletranslate zh-CN " + '"' + temp + '"')
 
 
 def translate(x):
     import os
     temp = clearLines(x)
-    os.system("/home/wznmickey/.pyenv/versions/3.10.13/bin/python -m googletranslate -r text zh-CN " + '"' + x + '"')
+    os.system("/home/wznmickey/.pyenv/versions/3.10.13/bin/python -m googletranslate -r text zh-CN " + '"' + temp + '"')
 
 def deeplx(x):
     import httpx, json
@@ -33,6 +33,20 @@ def deeplx(x):
         "text": x,
         "source_lang": "EN",
         "target_lang": "ZH"
+    }
+
+    post_data = json.dumps(data)
+    r = httpx.post(url = deeplx_api, data = post_data)
+    # print(r)
+    # print(r.content)
+    print(unquote(json.loads(r.text)["data"]))
+    for i in json.loads(r.text)["alternatives"] or []:
+        print(unquote(i))
+    
+    data = {
+        "text": x,
+        "source_lang": "ZH",
+        "target_lang": "EN  "
     }
 
     post_data = json.dumps(data)
@@ -58,7 +72,7 @@ def deeplx(x):
 def translateNew(x):
     import os
     temp = clearLines(x)
-    os.system("/home/wznmickey/.pyenv/versions/3.10.13/bin/python /home/wznmickey/programFiles/goldendicts/_tools/googleTranslate.py " + x )
+    os.system("/home/wznmickey/.pyenv/versions/3.10.13/bin/python /home/wznmickey/programFiles/goldendicts/_tools/googleTranslate.py " + "\"" + temp + "\"" )
 
 if __name__ == '__main__':
     argv = sys.argv
