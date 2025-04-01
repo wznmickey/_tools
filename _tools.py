@@ -43,29 +43,35 @@ def deeplx(x):
     for i in json.loads(r.text)["alternatives"] or []:
         print(unquote(i))
 
-from ollama import chat
-from ollama import ChatResponse
-def llm(x):
-    response: ChatResponse = chat(model='qwen2.5:0.5b', messages=[
-    {
-        'role': 'user',
-        'content': 'Translate this to Chinese: '+x,
-    },
-    ])
-    print(response['message']['content'])
-    # or access fields directly from the response object
-    print(response.message.content)
+# from ollama import chat
+# from ollama import ChatResponse
+# def llm(x):
+#     response: ChatResponse = chat(model='qwen2.5:7b', messages=[
+#     {
+#         'role': 'user',
+#         'content': 'Translate this to Chinese: '+x,
+#     },
+#     ])
+#     print(response['message']['content'])
+#     # or access fields directly from the response object
+#     print(response.message.content)
+def translateNew(x):
+    import os
+    temp = clearLines(x)
+    os.system("/home/wznmickey/.pyenv/versions/3.10.13/bin/python /home/wznmickey/programFiles/goldendicts/_tools/googleTranslate.py " + x )
 
 if __name__ == '__main__':
     argv = sys.argv
     if (argv[1] == "clearLines"):
         print(clearLines(argv[2]))
 
-    if (argv[1] == "googleTranslateHtml"):
-        translateHtml(argv[2])
-    if (argv[1] == "googleTranslate"):
-        translate(argv[2])
-    if (argv[1] == "deeplx"):
+    # if (argv[1] == "googleTranslateHtml"):
+    #     translateHtml(argv[2])
+    # if (argv[1] == "googleTranslate"):
+    #     translate(argv[2])
+    elif (argv[1] == "deeplx"):
         deeplx(argv[2])
-    if (argv[1] == "llm"):
-        llm(argv[2])
+    # elif (argv[1] == "llm"):
+    #     llm(argv[2])
+    else:
+        translateNew(argv[1])
